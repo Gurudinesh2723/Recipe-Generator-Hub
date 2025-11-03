@@ -1,0 +1,22 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Create Recipe{% endblock %}
+
+{% block content %}
+    <h1>Create a New Recipe</h1>
+
+    <!-- Display Success/Error Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Recipe</button>
+    </form>
+
+    <a href="{% url 'dashboard' %}">⬅️ Back to Dashboard</a>
+{% endblock %}

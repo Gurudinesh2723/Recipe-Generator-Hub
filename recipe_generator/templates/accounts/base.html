@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Recipe Generator Hub{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #ff914d;
+            padding: 12px 24px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .messages {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+    <nav>
+        <a href="{% url 'dashboard' %}">🏠 Dashboard</a> |
+        <a href="{% url 'create_recipe' %}">➕ Create Recipe</a> |
+        <a href="{% url 'view_standard_recipes' %}">🍽️ View Standard Recipes</a> |
+        <a href="{% url 'view_past_recipes' %}">📜 View Past Recipes</a> |
+        <a href="{% url 'generate_recipe' %}">🤖 AI Recipe Generator</a> |
+        <a href="{% url 'logout' %}">📕 Logout</a>
+    </nav>
+    {% endif %}
+
+    <div class="messages">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

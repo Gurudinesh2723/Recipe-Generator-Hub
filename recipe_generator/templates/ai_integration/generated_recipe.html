@@ -1,0 +1,41 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+<h2>AI Recipe Generator</h2>
+
+{% if recipe %}
+    <hr>
+    <h3>{{ recipe.title }}</h3>
+    <p><strong>Ingredients:</strong> {{ recipe.ingredients|join:", " }}</p>
+    <p><strong>Instructions:</strong></p>
+    <ul>
+        {% for step in recipe.instructions %}
+            <li>{{ step }}</li>
+        {% endfor %}
+    </ul>
+
+    <p><strong>Estimated Time:</strong> {{ recipe.estimated_time }}</p>
+    {% if recipe.nutrition %}
+        <p><strong>Nutritional Breakdown:</strong></p>
+        <pre>{{ recipe.nutrition }}</pre>
+    {% endif %}
+
+
+    <audio controls>
+        <source src="{{ MEDIA_URL }}{{ audio_file }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- ✅ Save Recipe Form -->
+    <form method="POST" action="{% url 'save_ai_recipe' %}">
+        {% csrf_token %}
+        <input type="hidden" name="title" value="{{ recipe.title }}">
+        <input type="hidden" name="ingredients" value="{{ recipe.ingredients|join:", " }}">
+        <input type="hidden" name="instructions" value="{{ recipe.instructions|join:"\n" }}">
+        <button type="submit">💾 Save This Recipe</button>
+    </form>
+
+{% else %}
+    <p>No recipe generated yet.</p>
+{% endif %}
+{% endblock %}

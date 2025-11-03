@@ -1,0 +1,31 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Your Recipes{% endblock %}
+
+{% block content %}
+    <h1>Your Recipes</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if recipes %}
+        <ul>
+            {% for recipe in recipes %}
+                <li>
+                    {{ recipe.title }} - {{ recipe.created_at|date:"d M Y" }}
+                    <a href="{% url 'edit_recipe' recipe.id %}">✏️ Edit</a> |
+                    <a href="{% url 'delete_recipe' recipe.id %}">🗑️ Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven’t created any recipes yet.</p>
+    {% endif %}
+
+    <a href="{% url 'create_recipe' %}">➕ Add a New Recipe</a>
+    <br>
+    <a href="{% url 'dashboard' %}">⬅️ Back to Dashboard</a>
+{% endblock %}

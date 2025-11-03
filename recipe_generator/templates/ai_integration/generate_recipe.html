@@ -1,0 +1,11 @@
+{% extends "accounts/base.html" %}
+
+{% block content %}
+<h2>AI Recipe Generator</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Generate Recipe</button>
+</form>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}Standard Recipes{% endblock %}
+
+{% block content %}
+<style>
+    .filter-form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .filter-form label {
+        font-weight: bold;
+    }
+
+    .filter-form select {
+        padding: 8px 10px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        width: 150px;
+    }
+
+    .filter-form button.auth-button {
+        width: auto;
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+
+    .recipe-card {
+        text-align: left;
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #fff;
+    }
+</style>
+
+<div class="auth-card">
+    <h2 class="auth-title">🍽️ Browse Standard Recipes</h2>
+
+    <!-- 🔹 Filter Form -->
+    <form method="GET" class="auth-form" style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 20px;">
+        <div>
+            <label for="cuisine" style="font-weight: bold;">Cuisine Type:</label>
+            <select name="cuisine_type" id="cuisine" style="margin-left: 10px; padding: 6px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="">-- All --</option>
+                {% for code, label in cuisine_options %}
+                    <option value="{{ code }}" {% if selected_cuisine == code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div>
+            <label for="meal" style="font-weight: bold;">Meal Type:</label>
+            <select name="meal_type" id="meal" style="margin-left: 10px; padding: 6px; border-radius: 5px; border: 1px solid #ccc;">
+                <option value="">-- All --</option>
+                {% for code, label in meal_options %}
+                    <option value="{{ code }}" {% if selected_meal == code %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <button class="auth-button" type="submit" style="padding: 10px 20px; background-color: #ff914d; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">
+            🔍 Filter
+        </button>
+    </form>
+    
+
+    <!-- 🔹 Recipe Cards -->
+    {% if recipes %}
+        {% for recipe in recipes %}
+            <div class="recipe-card">
+                <h3>{{ recipe.title }}</h3>
+                <p><strong>Description:</strong> {{ recipe.description }}</p>
+                <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+                <p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+                <p><strong>Cuisine:</strong> {{ recipe.get_cuisine_type_display }} |
+                   <strong>Meal:</strong> {{ recipe.get_meal_type_display }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="margin-top: 20px;">No recipes found. Try different filters.</p>
+    {% endif %}
+</div>
+{% endblock %}

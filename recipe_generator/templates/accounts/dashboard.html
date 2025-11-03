@@ -1,0 +1,23 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Welcome back, {{ user.username }}!</h1>
+
+    <!-- 🔹 Recent Recipes -->
+    <h2>Recent Recipes</h2>
+    {% if recent_recipes %}
+        <ul>
+            {% for recipe in recent_recipes %}
+                <li>
+                    {{ recipe.title }} 
+                    - <a href="{% url 'edit_recipe' recipe.id %}">✏️ Edit</a>
+                    | <a href="{% url 'delete_recipe' recipe.id %}">🗑️ Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven’t created any recipes yet.</p>
+    {% endif %}
+{% endblock %}

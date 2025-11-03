@@ -1,0 +1,15 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Edit Recipe{% endblock %}
+
+{% block content %}
+    <h1>Edit Recipe: {{ recipe.title }}</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">💾 Save Changes</button>
+    </form>
+
+    <a href="{% url 'dashboard' %}">⬅️ Back to Dashboard</a>
+{% endblock %}
